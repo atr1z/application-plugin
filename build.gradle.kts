@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.GradlePublishPlugin
 import com.vanniktech.maven.publish.SonatypeHost
 
 group = "mx.com.atriz"
-version = "0.0.4"
+version = "0.0.5"
 
 plugins {
     kotlin("jvm") version "2.0.20"
@@ -32,7 +32,7 @@ gradlePlugin {
     plugins {
         create("application") {
             id = "mx.com.atriz.application"
-            implementationClass = "mx.com.atriz.application"
+            implementationClass = "mx.com.atriz.Plugin"
             version = version
             displayName = "Atriz Application Plugin"
             description = "All needed setup for application development"
