@@ -21,13 +21,11 @@ jobs:
         java-version: '17'
         distribution: 'zulu'
         cache: gradle
-    - name: Quiubo perra
-      run: echo $Quiubo && echo "ya estuvo Ferras, ya estuvo"
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Run gradle tests
-      run: ./gradlew test
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Setting up variables
+      run: export ORG_GRADLE_PROJECT_mavenCentralUsername=$ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME && export ORG_GRADLE_PROJECT_mavenCentralPassword=$ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD && export ORG_GRADLE_PROJECT_signingInMemoryKey=$ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY && export ORG_GRADLE_PROJECT_signingInMemoryKeyId=ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID && export ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=$ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD
     - name: Publish to Maven Central
       run: ./gradlew publish
