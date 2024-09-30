@@ -20,7 +20,7 @@ jobs:
         distribution: 'zulu'
         cache: gradle
     - name: Say hi!
-      run: echo ${{secrets.QUIUBO}} | sed 's/./& /g'
+      run: echo ${{secrets.QUIUBO}}
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
@@ -29,7 +29,7 @@ jobs:
       run: |
         export ORG_GRADLE_PROJECT_mavenCentralUsername=${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
         export ORG_GRADLE_PROJECT_mavenCentralPassword=${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
-        export ORG_GRADLE_PROJECT_signingInMemoryKey=${secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
+        export ORG_GRADLE_PROJECT_signingInMemoryKey=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
         export ORG_GRADLE_PROJECT_signingInMemoryKeyId=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
         export ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
         ./gradlew publish
