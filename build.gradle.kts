@@ -62,9 +62,9 @@ mavenPublishing {
             }
         }
         scm {
-            url.set("https://github.com/AtrizDeveloper/Factory/")
-            connection.set("scm:git:git://github.com/AtrizDeveloper/Factory.git")
-            developerConnection.set("scm:git:ssh://git@github.com/AtrizDeveloper/Factory.git")
+            url.set("https://github.com/atr1z/application-plugin/")
+            connection.set("scm:git:git://github.com/atr1z/application-plugin.git")
+            developerConnection.set("scm:git:ssh://git@github.com/atr1z/application-plugin.git")
         }
     }
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
