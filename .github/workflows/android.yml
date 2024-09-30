@@ -13,19 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set current date as env variable
-      run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
     - name: set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'zulu'
         cache: gradle
+    - name: Say hi!
+      run: echo $QUIUBO
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Setting up variables
-      run: export ORG_GRADLE_PROJECT_mavenCentralUsername=$ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME && export ORG_GRADLE_PROJECT_mavenCentralPassword=$ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD && export ORG_GRADLE_PROJECT_signingInMemoryKey=$ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY && export ORG_GRADLE_PROJECT_signingInMemoryKeyId=ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID && export ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=$ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD
     - name: Publish to Maven Central
-      run: ./gradlew publish
+      run: export ORG_GRADLE_PROJECT_mavenCentralUsername=$ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME && export ORG_GRADLE_PROJECT_mavenCentralPassword=$ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD && export ORG_GRADLE_PROJECT_signingInMemoryKey=$ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY && export ORG_GRADLE_PROJECT_signingInMemoryKeyId=ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID && export ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=$ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD && ./gradlew publish
