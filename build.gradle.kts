@@ -1,6 +1,9 @@
 import com.vanniktech.maven.publish.GradlePublishPlugin
 import com.vanniktech.maven.publish.SonatypeHost
 
+group = "mx.com.atriz"
+version = "0.0.3"
+
 plugins {
     kotlin("jvm") version "2.0.20"
     `kotlin-dsl`
@@ -9,11 +12,9 @@ plugins {
     id("com.vanniktech.maven.publish") version "0.28.0"
 }
 
-group = "mx.com.atriz"
-version = "1.0.0"
-
 repositories {
     mavenCentral()
+    mavenLocal()
     google()
 }
 
@@ -21,11 +22,6 @@ dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
     implementation("com.android.tools.build:gradle:8.6.0")
-    testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
 }
 
 kotlin {
@@ -35,8 +31,8 @@ kotlin {
 gradlePlugin {
     plugins {
         create("application") {
-            id = "mx.com.atriz.plugin"
-            implementationClass = "mx.com.atriz.Plugin"
+            id = "mx.com.atriz.application"
+            implementationClass = "mx.com.atriz.application"
             version = version
             displayName = "Atriz Application Plugin"
             description = "All needed setup for application development"
