@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.GradlePublishPlugin
 import com.vanniktech.maven.publish.SonatypeHost
 
 group = "mx.com.atriz"
-version = "0.0.3"
+version = "0.0.4"
 
 plugins {
     kotlin("jvm") version "2.0.20"
