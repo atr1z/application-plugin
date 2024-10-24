@@ -5,9 +5,13 @@ import mx.com.atriz.core.Version
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class Plugin : Plugin<Project> {
+class Application : Plugin<Project> {
 
     override fun apply(target: Project) {
+        target.apply {
+            plugin("com.android.application")
+            plugin("kotlin-android")
+        }
         target.application().apply {
             compileSdk = Version.COMPILE_SDK
 
@@ -37,24 +41,6 @@ class Plugin : Plugin<Project> {
             compileOptions {
                 sourceCompatibility = Version.java()
                 targetCompatibility = Version.java()
-            }
-
-            flavorDimensions += "atriz"
-            productFlavors {
-                create("develop") {
-                    dimension = "atriz"
-                    buildConfigField("String", "API", "\"http://api.atriz.com.mx/\"")
-                }
-
-                create("GaleryStore") {
-                    dimension = "atriz"
-                    buildConfigField("String", "API", "\"http://api.atriz.com.mx/\"")
-                }
-
-                create("PlayStore") {
-                    dimension = "atrizt"
-                    buildConfigField("String", "API", "\"http://api.atriz.com.mx/\"")
-                }
             }
         }
     }
