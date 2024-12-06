@@ -2,10 +2,10 @@ import com.vanniktech.maven.publish.GradlePublishPlugin
 import com.vanniktech.maven.publish.SonatypeHost
 
 group = "mx.com.atriz"
-version = "0.0.7"
+version = "0.0.8"
 
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.0.21"
     `kotlin-dsl`
     `java-gradle-plugin`
     id("com.gradle.plugin-publish") version "1.2.1"
@@ -21,11 +21,11 @@ repositories {
 dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
-    implementation("com.android.tools.build:gradle:8.6.0")
+    implementation("com.android.tools.build:gradle:8.6.1")
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 gradlePlugin {

@@ -7,5 +7,5 @@ object Version {
     const val MIN_SDK = 30
     const val TARGET_SDK = 34
 
-    fun java(): JavaVersion = JavaVersion.VERSION_17
+    fun java(): JavaVersion = JavaVersion.VERSION_21
 }
