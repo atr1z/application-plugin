@@ -1,16 +1,11 @@
-import com.vanniktech.maven.publish.GradlePublishPlugin
-import com.vanniktech.maven.publish.SonatypeHost
-
-group = "mx.com.atriz"
-version = "0.1.0"
-
 plugins {
     kotlin("jvm") version "2.0.21"
     `kotlin-dsl`
     `java-gradle-plugin`
-    id("com.gradle.plugin-publish") version "1.2.1"
-    id("com.vanniktech.maven.publish") version "0.28.0"
+    id("eu.kakde.gradle.sonatype-maven-central-publisher") version "1.0.6"
 }
+
+group = "mx.com.atriz"
 
 repositories {
     mavenCentral()
@@ -21,52 +16,67 @@ repositories {
 dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
-    implementation("com.android.tools.build:gradle:8.6.1")
+    implementation("com.android.tools.build:gradle:8.8.0")
 }
 
 kotlin {
     jvmToolchain(21)
 }
 
-gradlePlugin {
-    plugins {
-        create("application") {
-            id = "mx.com.atriz.application"
-            implementationClass = "mx.com.atriz.Application"
-            version = version
-            displayName = "Atriz Application Plugin"
-            description = "All needed setup for application development"
-        }
-    }
+object Meta {
+    val COMPONENT_TYPE = "java" // "java" or "versionCatalog"
+    val GROUP = "mx.com.atriz"
+    val ARTIFACT_ID = "application"
+    val VERSION = "0.1.1"
+    val PUBLISHING_TYPE = "AUTOMATIC"
+    val SHA_ALGORITHMS = listOf("SHA-256", "SHA-512")
+    val DESC = "Application settings ready to build"
+    val LICENSE = "Apache-2.0"
+    val LICENSE_URL = "https://opensource.org/licenses/Apache-2.0"
+    val GITHUB_REPO = "atr1z/application-plugin.git"
+    val DEVELOPER_ID = "atr1z"
+    val DEVELOPER_NAME = "Atriz"
+    val DEVELOPER_ORGANIZATION = "Atriz"
+    val DEVELOPER_ORGANIZATION_URL = "https://atriz.com.mx"
 }
 
-mavenPublishing {
-    configure(GradlePublishPlugin())
+val sonatypeUsername: String? by project
+val sonatypePassword: String? by project
+
+sonatypeCentralPublishExtension {
+    groupId.set(Meta.GROUP)
+    artifactId.set(Meta.ARTIFACT_ID)
+    version.set(Meta.VERSION)
+    componentType.set(Meta.COMPONENT_TYPE)
+    publishingType.set(Meta.PUBLISHING_TYPE)
+    username.set(System.getenv("SONATYPE_USERNAME") ?: sonatypeUsername)
+    password.set(System.getenv("SONATYPE_PASSWORD") ?: sonatypePassword)
     pom {
-        name.set("Application Plugin")
-        description.set("Application settings ready to build")
-        inceptionYear.set("2024")
-        url.set("https://github.com/atr1z/application-plugin/")
+        name.set(Meta.ARTIFACT_ID)
+        description.set(Meta.DESC)
+        url.set("https://github.com/${Meta.GITHUB_REPO}")
         licenses {
             license {
-                name.set("The Apache License, Version 2.0")
-                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                name.set(Meta.LICENSE)
+                url.set(Meta.LICENSE_URL)
             }
         }
         developers {
             developer {
-                id.set("atr1z")
-                name.set("Jair M.")
-                url.set("https://github.com/atr1z/")
+                id.set(Meta.DEVELOPER_ID)
+                name.set(Meta.DEVELOPER_NAME)
+                organization.set(Meta.DEVELOPER_ORGANIZATION)
+                organizationUrl.set(Meta.DEVELOPER_ORGANIZATION_URL)
             }
         }
         scm {
-            url.set("https://github.com/atr1z/application-plugin/")
-            connection.set("scm:git:git://github.com/atr1z/application-plugin.git")
-            developerConnection.set("scm:git:ssh://git@github.com/atr1z/application-plugin.git")
+            url.set("https://github.com/${Meta.GITHUB_REPO}")
+            connection.set("scm:git:https://github.com/${Meta.GITHUB_REPO}")
+            developerConnection.set("scm:git:https://github.com/${Meta.GITHUB_REPO}")
+        }
+        issueManagement {
+            system.set("GitHub")
+            url.set("https://github.com/${Meta.GITHUB_REPO}/issues")
         }
     }
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-    signAllPublications()
 }
