@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "2.0.21"
     `kotlin-dsl`
     `java-gradle-plugin`
+    signing
     id("eu.kakde.gradle.sonatype-maven-central-publisher") version "1.0.6"
 }
 
@@ -40,17 +41,14 @@ object Meta {
     val DEVELOPER_ORGANIZATION_URL = "https://atriz.com.mx"
 }
 
-val sonatypeUsername: String? by project
-val sonatypePassword: String? by project
-
 sonatypeCentralPublishExtension {
     groupId.set(Meta.GROUP)
     artifactId.set(Meta.ARTIFACT_ID)
     version.set(Meta.VERSION)
     componentType.set(Meta.COMPONENT_TYPE)
     publishingType.set(Meta.PUBLISHING_TYPE)
-    username.set(System.getenv("SONATYPE_USERNAME") ?: sonatypeUsername)
-    password.set(System.getenv("SONATYPE_PASSWORD") ?: sonatypePassword)
+    username.set(System.getenv("SONATYPE_USERNAME") ?: "")
+    password.set(System.getenv("SONATYPE_PASSWORD") ?: "")
     pom {
         name.set(Meta.ARTIFACT_ID)
         description.set(Meta.DESC)
@@ -79,4 +77,10 @@ sonatypeCentralPublishExtension {
             url.set("https://github.com/${Meta.GITHUB_REPO}/issues")
         }
     }
+}
+signing {
+    useInMemoryPgpKeys(
+        System.getenv("SIGNING_KEY") ?: "",
+        System.getenv("SIGNING_PASSWORD") ?: ""
+    )
 }

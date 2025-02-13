@@ -18,16 +18,15 @@ jobs:
       with:
         java-version: '21'
         distribution: 'zulu'
-        cache: gradle
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
     - name: Publish to Maven Central
       run: |
-        export ORG_GRADLE_PROJECT_mavenCentralUsername=${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
-        export ORG_GRADLE_PROJECT_mavenCentralPassword=${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
-        export ORG_GRADLE_PROJECT_signingInMemoryKey=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
-        export ORG_GRADLE_PROJECT_signingInMemoryKeyId=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
-        export ORG_GRADLE_PROJECT_signingInMemoryKeyPassword=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
-        ./gradlew publish
+        export SONATYPE_USERNAME=${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
+        export SONATYPE_PASSWORD=${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
+        export SIGNING_KEY=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
+        export SIGNING_KEY_ID=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
+        export SIGNING_PASSWORD=${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
+        ./gradlew publishToSonatype
