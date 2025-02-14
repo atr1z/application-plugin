@@ -8,9 +8,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    env:
+      KEY: ${{ secrets.KEY }}
+      SECRET: ${{ secrets.SECRET }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      TEST: mamadas
     steps:
     - uses: actions/checkout@v4
     - name: set up JDK 21
@@ -23,13 +27,6 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     - name: Test with Gradle
-      run: |
-        export TEST=mamadas
-        echo "Quiuboooo".$TEST
+      run: echo "Quiuboooo".$TEST
     - name: Publish to Gradle Plugin Portal
-      run: |
-        export KEY=${{secrets.KEY}}
-        export SECRET=${{secrets.SECRET}}
-        export SIGNING_KEY=${{secrets.SIGNING_KEY}}
-        export SIGNING_PASSWORD=${{secrets.SIGNING_PASSWORD}}
-        ./gradlew publishPlugins -Pgradle.publish.key=$KEY -Pgradle.publish.secret=$SECRET
+      run: ./gradlew publishPlugins -Pgradle.publish.key=$KEY -Pgradle.publish.secret=$SECRET
