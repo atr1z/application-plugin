@@ -28,4 +28,4 @@ jobs:
         SECRET:${{secrets.SECRET}}
         SIGNING_KEY:${{secrets.SIGNING_KEY}}
         SIGNING_PASSWORD:${{secrets.SIGNING_PASSWORD}}
-    - run: ./gradlew publishPlugins -Pgradle.publish.key=$KEY -Pgradle.publish.secret=$SECRET
+      run: ./gradlew publishPlugins -Pgradle.publish.key=$KEY -Pgradle.publish.secret=$SECRET
