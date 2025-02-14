@@ -3,7 +3,6 @@ plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
     signing
-    id("eu.kakde.gradle.sonatype-maven-central-publisher") version "1.0.6"
 }
 
 group = "mx.com.atriz"
@@ -29,7 +28,7 @@ object Meta {
     val GROUP = "mx.com.atriz"
     val ARTIFACT_ID = "application"
     val VERSION = "0.1.1"
-    val PUBLISHING_TYPE = "AUTOMATIC"
+    val PUBLISHING_TYPE = "USER_MANAGED"
     val SHA_ALGORITHMS = listOf("SHA-256", "SHA-512")
     val DESC = "Application settings ready to build"
     val LICENSE = "Apache-2.0"
@@ -78,9 +77,12 @@ sonatypeCentralPublishExtension {
         }
     }
 }
-signing {
+
+/*signing {
     useInMemoryPgpKeys(
+        System.getenv("SIGNING_KEY_ID") ?: "",
         System.getenv("SIGNING_KEY") ?: "",
         System.getenv("SIGNING_PASSWORD") ?: ""
     )
-}
+    sign(publishing.publications)
+}*/
