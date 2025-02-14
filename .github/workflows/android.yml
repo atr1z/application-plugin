@@ -14,7 +14,6 @@ jobs:
       SECRET: ${{ secrets.SECRET }}
       SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
       SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-      TEST: mamadas
     steps:
     - uses: actions/checkout@v4
     - name: set up JDK 21
@@ -26,7 +25,5 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Test with Gradle
-      run: echo "Quiuboooo".$TEST
     - name: Publish to Gradle Plugin Portal
       run: ./gradlew publishPlugins -Pgradle.publish.key=$KEY -Pgradle.publish.secret=$SECRET
