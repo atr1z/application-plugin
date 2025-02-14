@@ -23,9 +23,11 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     - name: Publish to Gradle Plugin Portal
-      env:
-        KEY: ${{secrets.KEY}}
-        SECRET: ${{secrets.SECRET}}
-        SIGNING_KEY: ${{secrets.SIGNING_KEY}}
-        SIGNING_PASSWORD: ${{secrets.SIGNING_PASSWORD}}
-      run: ./gradlew publishPlugins -Pgradle.publish.key=$KEY -Pgradle.publish.secret=$SECRET
+      run: |
+        export KEY=${{secrets.KEY}}
+        export SECRET=${{secrets.SECRET}}
+        export SIGNING_KEY=${{secrets.SIGNING_KEY}}
+        export SIGNING_PASSWORD=${{secrets.SIGNING_PASSWORD}}
+        export TEST=mamadas
+        echo $TEST
+        ./gradlew publishPlugins -Pgradle.publish.key=$KEY -Pgradle.publish.secret=$SECRET
