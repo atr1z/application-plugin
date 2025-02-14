@@ -1,11 +1,13 @@
 plugins {
+    signing
     kotlin("jvm") version "2.0.21"
     `kotlin-dsl`
     `java-gradle-plugin`
-    signing
+    id("com.gradle.plugin-publish") version "1.3.1"
 }
 
 group = "mx.com.atriz"
+version = "0.0.1"
 
 repositories {
     mavenCentral()
@@ -23,66 +25,26 @@ kotlin {
     jvmToolchain(21)
 }
 
-object Meta {
-    val COMPONENT_TYPE = "java" // "java" or "versionCatalog"
-    val GROUP = "mx.com.atriz"
-    val ARTIFACT_ID = "application"
-    val VERSION = "0.1.1"
-    val PUBLISHING_TYPE = "USER_MANAGED"
-    val SHA_ALGORITHMS = listOf("SHA-256", "SHA-512")
-    val DESC = "Application settings ready to build"
-    val LICENSE = "Apache-2.0"
-    val LICENSE_URL = "https://opensource.org/licenses/Apache-2.0"
-    val GITHUB_REPO = "atr1z/application-plugin.git"
-    val DEVELOPER_ID = "atr1z"
-    val DEVELOPER_NAME = "Atriz"
-    val DEVELOPER_ORGANIZATION = "Atriz"
-    val DEVELOPER_ORGANIZATION_URL = "https://atriz.com.mx"
-}
 
-sonatypeCentralPublishExtension {
-    groupId.set(Meta.GROUP)
-    artifactId.set(Meta.ARTIFACT_ID)
-    version.set(Meta.VERSION)
-    componentType.set(Meta.COMPONENT_TYPE)
-    publishingType.set(Meta.PUBLISHING_TYPE)
-    username.set(System.getenv("SONATYPE_USERNAME") ?: "")
-    password.set(System.getenv("SONATYPE_PASSWORD") ?: "")
-    pom {
-        name.set(Meta.ARTIFACT_ID)
-        description.set(Meta.DESC)
-        url.set("https://github.com/${Meta.GITHUB_REPO}")
-        licenses {
-            license {
-                name.set(Meta.LICENSE)
-                url.set(Meta.LICENSE_URL)
-            }
-        }
-        developers {
-            developer {
-                id.set(Meta.DEVELOPER_ID)
-                name.set(Meta.DEVELOPER_NAME)
-                organization.set(Meta.DEVELOPER_ORGANIZATION)
-                organizationUrl.set(Meta.DEVELOPER_ORGANIZATION_URL)
-            }
-        }
-        scm {
-            url.set("https://github.com/${Meta.GITHUB_REPO}")
-            connection.set("scm:git:https://github.com/${Meta.GITHUB_REPO}")
-            developerConnection.set("scm:git:https://github.com/${Meta.GITHUB_REPO}")
-        }
-        issueManagement {
-            system.set("GitHub")
-            url.set("https://github.com/${Meta.GITHUB_REPO}/issues")
+gradlePlugin {
+    website = "https://atriz.com.mx"
+    vcsUrl = "https://github.com/atr1z/application-plugin"
+    plugins {
+        create("application") {
+            id = "mx.com.atriz.application"
+            implementationClass = "mx.com.atriz.Application"
+            displayName = "Application module Plugin"
+            version = project.version
+            description = "This plugin is used to create a new module in an Android project with the necessary gradle configurations."
+            tags = listOf("atriz", "android-plugin", "android")
         }
     }
 }
 
-/*signing {
+signing {
     useInMemoryPgpKeys(
-        System.getenv("SIGNING_KEY_ID") ?: "",
         System.getenv("SIGNING_KEY") ?: "",
         System.getenv("SIGNING_PASSWORD") ?: ""
     )
-    sign(publishing.publications)
-}*/
+    sign(configurations.runtimeElements.get())
+}
