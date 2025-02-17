@@ -1,13 +1,17 @@
+import com.vanniktech.maven.publish.GradlePublishPlugin
+import com.vanniktech.maven.publish.SonatypeHost
+
+group = "mx.com.atriz"
+version = "0.1.2"
+
 plugins {
     signing
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm") version "2.0.20"
     `kotlin-dsl`
     `java-gradle-plugin`
     id("com.gradle.plugin-publish") version "1.3.1"
+    id("com.vanniktech.maven.publish") version "0.30.0"
 }
-
-group = "mx.com.atriz"
-version = "0.0.2"
 
 repositories {
     mavenCentral()
@@ -18,27 +22,54 @@ repositories {
 dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
-    implementation("com.android.tools.build:gradle:8.8.0")
+    implementation("com.android.tools.build:gradle:8.8.1")
 }
 
 kotlin {
     jvmToolchain(21)
 }
 
-
 gradlePlugin {
-    website = "https://atriz.com.mx"
-    vcsUrl = "https://github.com/atr1z/application-plugin"
     plugins {
         create("application") {
             id = "mx.com.atriz.application"
             implementationClass = "mx.com.atriz.Application"
-            displayName = "Application module Plugin"
-            version = project.version
-            description = "This plugin is used to create a new module in an Android project with the necessary gradle configurations."
-            tags = listOf("atriz", "android-plugin", "android")
+            version = version
+            displayName = "Atriz Application Plugin"
+            description = "All needed setup for application development"
         }
     }
+}
+
+mavenPublishing {
+    configure(GradlePublishPlugin())
+    pom {
+        name.set("Application Plugin")
+        description.set("Application settings ready to build")
+        inceptionYear.set("2024")
+        url.set("https://github.com/atr1z/application-plugin/")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id.set("atr1z")
+                name.set("Jair M.")
+                url.set("https://github.com/atr1z/")
+            }
+        }
+        scm {
+            url.set("https://github.com/atr1z/application-plugin/")
+            connection.set("scm:git:git://github.com/atr1z/application-plugin.git")
+            developerConnection.set("scm:git:ssh://git@github.com/atr1z/application-plugin.git")
+        }
+    }
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
 }
 
 signing {
