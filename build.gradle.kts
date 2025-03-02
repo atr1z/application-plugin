@@ -2,7 +2,7 @@ import com.vanniktech.maven.publish.GradlePublishPlugin
 import com.vanniktech.maven.publish.SonatypeHost
 
 group = "mx.com.atriz"
-version = "0.1.2"
+version = "0.1.3"
 
 plugins {
     signing
@@ -58,7 +58,7 @@ mavenPublishing {
         developers {
             developer {
                 id.set("atr1z")
-                name.set("Jair M.")
+                name.set("Atriz")
                 url.set("https://github.com/atr1z/")
             }
         }
@@ -68,7 +68,7 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://git@github.com/atr1z/application-plugin.git")
         }
     }
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     signAllPublications()
 }
 
