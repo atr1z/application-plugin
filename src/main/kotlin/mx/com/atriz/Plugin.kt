@@ -31,6 +31,22 @@ class Application : Plugin<Project> {
             buildTypes {
                 release {
                     isMinifyEnabled = false
+                    isDebuggable = false
+                    isJniDebuggable = false
+                    isShrinkResources = false
+                    multiDexEnabled = true
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "proguard-rules.pro"
+                    )
+                }
+
+                debug {
+                    isMinifyEnabled = false
+                    isJniDebuggable = true
+                    isDebuggable = true
+                    isShrinkResources = false
+                    multiDexEnabled = true
                     proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"),
                         "proguard-rules.pro"
