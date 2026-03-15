@@ -2,7 +2,12 @@ import com.vanniktech.maven.publish.GradlePublishPlugin
 import com.vanniktech.maven.publish.SonatypeHost
 
 group = "mx.com.atriz"
-version = "0.1.4"
+version = providers.exec {
+    commandLine("git", "describe", "--tags", "--abbrev=0")
+    isIgnoreExitValue = true
+}.standardOutput.asText.map { it.trim().removePrefix("v") }
+    .map { if (it.isEmpty()) "0.0.0-SNAPSHOT" else it }
+    .get()
 
 plugins {
     signing
@@ -23,6 +28,7 @@ dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
     implementation("com.android.tools.build:gradle:8.8.1")
+    implementation("org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.0.20")
 }
 
 kotlin {
