@@ -78,10 +78,11 @@ mavenPublishing {
     signAllPublications()
 }
 
+val signingKey = System.getenv("SIGNING_KEY")
+
 signing {
-    useInMemoryPgpKeys(
-        System.getenv("SIGNING_KEY") ?: "",
-        System.getenv("SIGNING_PASSWORD") ?: ""
-    )
-    sign(configurations.runtimeElements.get())
+    if (!signingKey.isNullOrBlank()) {
+        useInMemoryPgpKeys(signingKey, System.getenv("SIGNING_PASSWORD") ?: "")
+        sign(configurations.runtimeElements.get())
+    }
 }
